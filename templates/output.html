@@ -1,0 +1,48 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Lucid
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+<link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid" style="background-color: #1c1c1c">
+        <div class="navbar-header" style="background-color: #1c1c1c">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div>
+            <img src="{{url_for('static', filename='new.png')}}" height="40" width="45" align="left" style="padding-top: 10px">
+            <a class="navbar-brand" href="#" style="padding-left: 20px">Lucid</a>
+          </div>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 main">
+      <p></p>
+      <h3 align="center" style="padding-bottom: 20px">Output for Suspicious Accounts</h3>
+      {{ results.to_html(classes="table table-striped", columns=['Account Number','Risk Score','No. of Suspicious Transactions','No. of Red Flags']) | safe}}
+    </div>
+    <p>
+      <h4 style="text-align: center;">The CSV file for the same has been saved to your project folder as "date_time.csv"</h4>
+    </p>
+  </div>
+</div>
+{% endblock %}

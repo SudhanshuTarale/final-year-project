@@ -1,0 +1,345 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+Lucid
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+<link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid" style="background-color: #1c1c1c">
+        <div class="navbar-header" style="background-color: #1c1c1c">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div>
+            <img src="{{url_for('static', filename='new.png')}}" height="40" width="45" align="left" style="padding-top: 10px">
+            <a class="navbar-brand" href="#" style="padding-left: 20px">Lucid</a>
+          </div>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+<div class="container mt-5" style="margin-top:50px;">
+  <form class="form-group col-lg-6 offset-lg-3" method="POST" action="/output" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="row">
+      {{ wtf.form_field(form.file) }}
+    </div>
+    <div class="modal fade" id="startendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Start Date and End Date</h4>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+            <!-- <span aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+          <div class="modal-body">
+            The date range in which in which the analysis of transactions are to be performed.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="rule1Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Threshold Amount Rule</h4>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>It identifies the following which can be used to generate cash or wire transaction reports: </p>
+            <p>• A single transaction(outgoing) that is higher than the threshold given as an input by the user</p>
+            <p>• An activity that splits a transaction(outgoing) into several transactions, when the total amount of the
+              transaction is higher than a threshold, given as an input by the user</p>
+            <!-- <p>The model can be used to generate cash transaction reports (FinCEN CTRs), sometimes required by law.</p>
+            <p>Examples: </p>
+            <p>• Financial institutions in Switzerland are required to report on cash transactions in new accounts
+              whenever the transaction amount is greater than SF 100,000. The model will generate an alert for any
+              transaction that meets this criterion.</p>
+            <p>• Financial institutions in the U.S. are required to report daily cash-equivalent transactions whenever
+              the daily-accumulated transaction amount, for an account, is greater than $10,000. The model generates an
+              alert if the accumulated daily activities are higher than $10,000.</p> -->
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="rule2Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Excessive Fund Transfer Rule</h4>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>It identifies the following which monitors high risk activities like international incoming and outgoing
+              money transfers higher than a threshold set by the regulatory body</p>
+            <p>• An activity that splits a transaction into several transactions, when the total amount of the
+              transaction (incoming as well as outgoing) is higher than a threshold, given as an input by the user</p>
+            <!-- <p>Examples: </p>
+            <p>Financial institutions in Israel are required to report on any single international EFT whenever it is
+              greater than or equal to NIS 1,000,000. The model generates an alert for any EFT that meets this
+              criterion. </p> -->
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="rule3Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Burst in Originator Rule</h4>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>This model detects multiple payments from the same originator within a specified interval that are made
+              by different beneficiaries. This may indicate that the originator of the activity is part of a network of
+              accounts that are engaging in illicit activities. This model works in conjunction with the Burst in
+              Beneficiary model in order to identify suspicious activity networks. </p>
+            <!-- <p>Examples: </p> -->
+            <p>•An activity that splits a transaction(outgoing) into several outgoing transactions to the same
+              beneficiary, when the total amount of the transaction , the number of payer accounts and the number of
+              distinct payer accounts are all greater than their respective thresholds which are given as inputs by the
+              user</p>
+            <p>•An activity that splits a transaction(incoming) into several incoming transactions to the same
+              beneficiary, when the total amount of the transaction , the number of payer accounts and the number of
+              distinct payer accounts are all greater than their respective thresholds which are given as inputs by the
+              user</p>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="rule4Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Structuring Activity Rule</h4>
+          </div>
+          <div class="modal-body">
+            <p>This model searches for activities that deliberately attempt to avoid detection by standard regulatory
+              measures. </p>
+            <p>The Structuring Activity model is specifically designed to identify small but structured incremental wire
+              transfers, with the emphasis on detecting patterns as opposed to ‘one-time’ occurrences. </p>
+            <p>Examples: </p>
+            <p>• Financial institutions in France are required to declare any fund transfer with an amount greater than
+              €10,000 to customs. A customer of a French Financial Institution has just sold a property outside of the
+              European Union and would like to bring the proceeds back to France without declaring them. He asks a
+              family member abroad to send him the proceeds over a period of a couple of months via weekly wire
+              transfers to his account that never exceed €10,000. </p>
+            <p>• The Daily Messages Structuring for Beneficiary Party Group rule will detect the recurring transfers
+              under the threshold and will raise an alert. </p>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="scoringModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Scoring Algorithm</h4>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button> -->
+          </div>
+          <div class="modal-body">
+            <p>In this program, we are implementing a scoring algorithm where based on the parameters entered in the 4
+              rules above, we give a "score". A score is a parameter indicating how risky are the accounts and
+              transactions taking place. Maximum value is 4.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:30px;">
+      <label>
+        <a class="button fifteen" href="#startendModal" data-toggle="modal"><strong>
+            <h4>SET TIME RANGE</h4>
+          </strong></a>
+      </label>
+      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;" id="test">
+        {{ wtf.form_field(form.sd1,onmouseover="DisplayText()") }}
+      </div>
+      <p></p>
+      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left; margin-top: -20px;">
+        {{ wtf.form_field(form.ed1) }}
+      </div>
+      <p></p>
+    </div>
+    <p></p>
+    <div class="column">
+      <label>
+        <a class="button fifteen" href="#rule1Modal" data-toggle="modal"><strong>
+            <h4>RULE 1 (THRESHOLD AMOUNT RULE)</h4>
+          </strong></a>
+      </label>
+      <!-- <a class="button fifteen" href="#rule1Modal" data-toggle="modal"><strong>Description</strong></a> -->
+      <p></p>
+      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+        {{ wtf.form_field(form.tsum1) }} 
+      </div>
+      <p></p>
+      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+        {{ wtf.form_field(form.tsin1) }}
+      </div>
+      <p></p>
+      <div class=" " style="margin-top:30px;">
+        <label>
+          <a class="button fifteen" href="#rule2Modal" data-toggle="modal"><strong>
+              <h4>RULE 2 (EXCESSIVE FUND TRANSFER RULE)</h4>
+            </strong></a>
+        </label>
+        <!-- <a class="button fifteen" href="#rule2Modal" data-toggle="modal"><strong>Description</strong></a> -->
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left; margin-top: -20px">
+          {{ wtf.form_field(form.minsum2) }}
+        </div>
+        <p></p>
+      </div>
+    </div>
+    <div class="column">
+      <p></p>
+      <div class=" " style="margin-top:30px;">
+        <label>
+          <a class="button fifteen" href="#rule3Modal" data-toggle="modal"><strong>
+              <h4>RULE 3 (BURST IN ORIGINATOR RULE)</h4>
+            </strong></a>
+        </label>
+        <p></p>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.minout3) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.minben3) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.tsout3) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.minin3) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.mincre3) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.tsin3) }}
+        </div>
+        <p></p>
+      </div>
+      <p></p>
+      <div class=" " style="margin-top:30px;">
+        <label>
+          <a class="button fifteen" href="#rule4Modal" data-toggle="modal"><strong>
+              <h4>RULE 4 (STRUCTURING ACTIVITY RULE)</h4>
+            </strong></a>
+        </label>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.lout4) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.uout4) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.lin4) }}
+        </div>
+        <p></p>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
+          {{ wtf.form_field(form.uin4) }}
+        </div>
+      </div>
+      <p></p>
+      <div class=" " style="margin-top:30px;">
+        <label>
+          <a class="button fifteen" href="#scoringModal" data-toggle="modal"><strong>
+              <h4>SCORING</h4>
+            </strong></a>
+        </label>
+        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left">
+          {{ wtf.form_field(form.min_threshold) }}
+        </div>
+        <p></p>
+      </div>
+    </div>
+    <p></p>
+    <div class=" ">
+      <a href="output.html"><button type="submit" class="btn btn-primary" name='rules' id="rules">Submit</button></a>
+    </div>
+</div>
+<p></p>
+
+</form>
+<script>
+function DisplayText() {
+  document.getElementByid('test').style.color="red";
+}
+
+</script>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Lucid
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Lucid</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 main">
+          <h1 class="page-header">{{ name }}, please choose one</h1>
+          <br><br><br>
+          <div class="row">
+            <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12" align="center">
+              <h2>Single Record Screening</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente fugiat dicta, accusamus dolores doloribus assumenda esse repellat adipisci atque nisi odio, odit eos sequi, debitis sit numquam, earum non nostrum.</p>
+              <a class="btn btn-primary" href="{{ url_for('srs') }}" role="button">Single Record Screening</a>
+            </div>
+            <div class="col-lg-4 col-md-12 col-xs-12 col-sm-6" align="center">
+              <h2>Bulk Screenig</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente fugiat dicta, accusamus dolores doloribus assumenda esse repellat adipisci atque nisi odio, odit eos sequi, debitis sit numquam, earum non nostrum.</p>
+              <a class="btn btn-primary" href="{{ url_for('batch') }}" role="button">Bulk Screening</a>
+            </div>
+            <div class="col-lg-4 col-md-12 col-xs-12 col-sm-6" align="center">
+              <h2>List Management</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente fugiat dicta, accusamus dolores doloribus assumenda esse repellat adipisci atque nisi odio, odit eos sequi, debitis sit numquam, earum non nostrum.</p>
+              <a class="btn btn-primary" href="" role="button">List Management</a>
+            </div>
+          </div>
+          <br><br><br>
+          <div class="row">
+            <div class="col-lg-4 col-md-12 col-xs-12 col-sm-6" align="center">
+              <h2>Metrics and Reporting</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente fugiat dicta, accusamus dolores doloribus assumenda esse repellat adipisci atque nisi odio, odit eos sequi, debitis sit numquam, earum non nostrum.</p>
+              <a class="btn btn-primary" href="" role="button">Metrics and Reporting</a>
+            </div>
+            <div class="col-lg-4 col-md-12 col-xs-12 col-sm-6" align="center">
+              <h2>FAQs</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente fugiat dicta, accusamus dolores doloribus assumenda esse repellat adipisci atque nisi odio, odit eos sequi, debitis sit numquam, earum non nostrum.</p>
+              <a class="btn btn-primary" href="" role="button">FAQs</a>
+            </div>
+            <div class="col-lg-4 col-md-12 col-xs-12 col-sm-6" align="center">
+              <h2>Settings</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente fugiat dicta, accusamus dolores doloribus assumenda esse repellat adipisci atque nisi odio, odit eos sequi, debitis sit numquam, earum non nostrum.</p>
+              <a class="btn btn-primary" href="" role="button">Settings</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
