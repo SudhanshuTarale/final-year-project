@@ -8,10 +8,6 @@ Lucid
 {{super()}}
 <link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
 <link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 {% endblock %}
 
 {% block content %}
@@ -37,20 +33,15 @@ Lucid
       </div>
     </nav>
 
-<div class="container mt-5" style="margin-top:50px;">
+<div class="container mt-5" style="margin-top:50px;width: 2500px;padding-left: 200px;padding-right: 200px" >
   <form class="form-group col-lg-6 offset-lg-3" method="POST" action="/output" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
-    <div class="row">
-      {{ wtf.form_field(form.file) }}
-    </div>
     <div class="modal fade" id="startendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="exampleModalLabel">Start Date and End Date</h4>
-            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-            <!-- <span aria-hidden="true">&times;</span> -->
             </button>
           </div>
           <div class="modal-body">
@@ -110,10 +101,6 @@ Lucid
               money transfers higher than a threshold set by the regulatory body</p>
             <p>• An activity that splits a transaction into several transactions, when the total amount of the
               transaction (incoming as well as outgoing) is higher than a threshold, given as an input by the user</p>
-            <!-- <p>Examples: </p>
-            <p>Financial institutions in Israel are required to report on any single international EFT whenever it is
-              greater than or equal to NIS 1,000,000. The model generates an alert for any EFT that meets this
-              criterion. </p> -->
             </p>
           </div>
           <div class="modal-footer">
@@ -129,8 +116,6 @@ Lucid
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="exampleModalLabel">Burst in Originator Rule</h4>
-            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span> -->
             </button>
           </div>
           <div class="modal-body">
@@ -138,7 +123,6 @@ Lucid
               by different beneficiaries. This may indicate that the originator of the activity is part of a network of
               accounts that are engaging in illicit activities. This model works in conjunction with the Burst in
               Beneficiary model in order to identify suspicious activity networks. </p>
-            <!-- <p>Examples: </p> -->
             <p>•An activity that splits a transaction(outgoing) into several outgoing transactions to the same
               beneficiary, when the total amount of the transaction , the number of payer accounts and the number of
               distinct payer accounts are all greater than their respective thresholds which are given as inputs by the
@@ -191,9 +175,6 @@ Lucid
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="exampleModalLabel">Scoring Algorithm</h4>
-            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button> -->
           </div>
           <div class="modal-body">
             <p>In this program, we are implementing a scoring algorithm where based on the parameters entered in the 4
@@ -206,51 +187,53 @@ Lucid
         </div>
       </div>
     </div>
-
+  <div class="content-section">
     <div class="form-group" style="margin-top:30px;">
+      <div>
+      {{ wtf.form_field(form.file) }}
+      </div>
       <label>
         <a class="button fifteen" href="#startendModal" data-toggle="modal"><strong>
             <h4>SET TIME RANGE</h4>
           </strong></a>
       </label>
-      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;" id="test">
-        {{ wtf.form_field(form.sd1,onmouseover="DisplayText()") }}
+      <div>
+        {{ form.sd1.label(class="form-control-label") }}
+        {{ form.sd1(class="form-control form-control-lg") }}
+        <p>Enter the Start date from when you would like to monitor the transactions</p>
       </div>
-      <p></p>
-      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left; margin-top: -20px;">
-        {{ wtf.form_field(form.ed1) }}
+      <div>
+        {{ form.ed1.label(class="form-control-label") }}
+        {{ form.ed1(class="form-control form-control-lg") }}
+        <p>Enter the End date from when you would like to monitor the transactions</p>
       </div>
-      <p></p>
     </div>
-    <p></p>
     <div class="column">
       <label>
         <a class="button fifteen" href="#rule1Modal" data-toggle="modal"><strong>
             <h4>RULE 1 (THRESHOLD AMOUNT RULE)</h4>
           </strong></a>
       </label>
-      <!-- <a class="button fifteen" href="#rule1Modal" data-toggle="modal"><strong>Description</strong></a> -->
-      <p></p>
-      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-        {{ wtf.form_field(form.tsum1) }} 
+      <div>
+        {{ form.tsum1.label(class="form-control-label") }}
+        {{ form.tsum1(class="form-control form-control-lg") }}
+        <p>Enter the minimum total amount in transactions from one account</p>
       </div>
-      <p></p>
-      <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-        {{ wtf.form_field(form.tsin1) }}
+      <div>
+        {{ form.tsin1.label(class="form-control-label") }}
+        {{ form.tsin1(class="form-control form-control-lg") }}
+        <p>Enter the minimum total amount in a single transactions from one account</p>
       </div>
-      <p></p>
       <div class=" " style="margin-top:30px;">
         <label>
           <a class="button fifteen" href="#rule2Modal" data-toggle="modal"><strong>
               <h4>RULE 2 (EXCESSIVE FUND TRANSFER RULE)</h4>
             </strong></a>
         </label>
-        <!-- <a class="button fifteen" href="#rule2Modal" data-toggle="modal"><strong>Description</strong></a> -->
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left; margin-top: -20px">
-          {{ wtf.form_field(form.minsum2) }}
-        </div>
-        <p></p>
+        <div>
+        {{ form.minsum2.label(class="form-control-label") }}
+        {{ form.minsum2(class="form-control form-control-lg") }}
+        <p>Enter the minimum amount above which transactions are considered to be internatinonal</p>
       </div>
     </div>
     <div class="column">
@@ -261,32 +244,36 @@ Lucid
               <h4>RULE 3 (BURST IN ORIGINATOR RULE)</h4>
             </strong></a>
         </label>
-        <p></p>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.minout3) }}
+        <div>
+        {{ form.minout3.label(class="form-control-label") }}
+        {{ form.minout3(class="form-control form-control-lg") }}
+        <p>Enter the minimum number of accounts that one account can send money to</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.minben3) }}
+        <div>
+        {{ form.minben3.label(class="form-control-label") }}
+        {{ form.minben3(class="form-control form-control-lg") }}
+        <p>Enter the minimum number of distinct accounts that one account can send money to</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.tsout3) }}
+        <div>
+        {{ form.tsout3.label(class="form-control-label") }}
+        {{ form.tsout3(class="form-control form-control-lg") }}
+        <p>Enter the minimum total amount in outgoing transactions</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.minin3) }}
+        <div>
+        {{ form.minin3.label(class="form-control-label") }}
+        {{ form.minin3(class="form-control form-control-lg") }}
+        <p>Enter the minimum number of accounts that one account can receive money from</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.mincre3) }}
+        <div>
+        {{ form.mincre3.label(class="form-control-label") }}
+        {{ form.mincre3(class="form-control form-control-lg") }}
+        <p>Enter the minimum number of distinct accounts that one account can receive money from</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.tsin3) }}
+        <div>
+        {{ form.tsin3.label(class="form-control-label") }}
+        {{ form.tsin3(class="form-control form-control-lg") }}
+        <p>Enter the minimum total amount in incoming transactions</p>
         </div>
-        <p></p>
       </div>
       <p></p>
       <div class=" " style="margin-top:30px;">
@@ -295,21 +282,25 @@ Lucid
               <h4>RULE 4 (STRUCTURING ACTIVITY RULE)</h4>
             </strong></a>
         </label>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.lout4) }}
+        <div>
+        {{ form.lout4.label(class="form-control-label") }}
+        {{ form.lout4(class="form-control form-control-lg") }}
+        <p>Minimum total amount for outgoing transactions</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.uout4) }}
+        <div>
+        {{ form.uout4.label(class="form-control-label") }}
+        {{ form.uout4(class="form-control form-control-lg") }}
+        <p>Maximum total amount for outgoing transactions</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.lin4) }}
+        <div>
+        {{ form.lin4.label(class="form-control-label") }}
+        {{ form.lin4(class="form-control form-control-lg") }}
+        <p>Minimum total amount for incoming transactions</p>
         </div>
-        <p></p>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left;margin-top: -20px">
-          {{ wtf.form_field(form.uin4) }}
+        <div>
+        {{ form.uin4.label(class="form-control-label") }}
+        {{ form.uin4(class="form-control form-control-lg") }}
+        <p>Maximum total amount for incoming transactions</p>
         </div>
       </div>
       <p></p>
@@ -319,10 +310,11 @@ Lucid
               <h4>SCORING</h4>
             </strong></a>
         </label>
-        <div style="display:flex; flex-direction: row; justify-content: left; align-items: left">
-          {{ wtf.form_field(form.min_threshold) }}
+        <div>
+        {{ form.min_threshold.label(class="form-control-label") }}
+        {{ form.min_threshold(class="form-control form-control-lg") }}
+        <p>Only accounts with risk score more than the entered number will be shown in the output</p>
         </div>
-        <p></p>
       </div>
     </div>
     <p></p>
@@ -331,14 +323,44 @@ Lucid
     </div>
 </div>
 <p></p>
-
+  </div>
 </form>
-<script>
-function DisplayText() {
-  document.getElementByid('test').style.color="red";
-}
+<style type="text/css">
+body {
+    background: #fafafa;
+    color: #333333;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+  
+  .bg-steel {
+    background-color: #5f788a;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
 
-</script>
+</style>
 </body>
 
 </html>
