@@ -148,20 +148,20 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/sst')
-@login_required
-def sst():
-    return render_template('sst.html', name=current_user.username)
+# @app.route('/sst')
+# @login_required
+# def sst():
+#     return render_template('sst.html', name=current_user.username)
 
-@app.route('/srs')
-@login_required
-def srs():
-    return render_template('srs.html', name=current_user.username)
+# @app.route('/srs')
+# @login_required
+# def srs():
+#     return render_template('srs.html', name=current_user.username)
 
-@app.route('/aml')
-@login_required
-def aml():
-    return render_template('aml.html', name=current_user.username)
+# @app.route('/aml')
+# @login_required
+# def aml():
+#     return render_template('aml.html', name=current_user.username)
 
 @app.route('/rules', methods=['GET','POST'])
 @login_required
@@ -205,7 +205,6 @@ def output():
         lin4 = request.form.get("lin4")
         uin4 = request.form.get("uin4")
         min_threshold = (int)(request.form.get("min_threshold"))
-        # results=request.form
         with sql.connect("/Users/sudhanshutarale/Transaction.db") as conn:
             threshold_amount_rule(conn,sd1,ed1,tsum1,tsin1)
             excessive_funds_rule(conn,minsum2,sd1,ed1)
