@@ -58,7 +58,7 @@ class RegisterForm(FlaskForm):
 
 class RuleForm(FlaskForm):
     file = FileField('<h4>Upload transaction details<h4>',
-                     validators=[FileRequired()])
+                     validators=[FileRequired()],description="Should be a .csv file")
     sd1 = DateField('Start Date',
                     validators=[InputRequired()], description="Enter the Start date from when you would like to monitor the transactions")
     ed1 = DateField('End Date', validators=[InputRequired(
@@ -68,7 +68,7 @@ class RuleForm(FlaskForm):
     tsin1 = IntegerField(
         'Minimum  value of single transaction (in ₹)', validators=[InputRequired()], description="Enter the minimum total amount in a single transactions from one account")
     minsum2 = IntegerField('Minimum value of sum of risky transaction (in ₹)',
-                           validators=[InputRequired()], description="Enter the minimum amount above which transactions are considered to be internatinonal ")
+                           validators=[InputRequired()], description="Enter the minimum amount for international incoming and outgoing transactions as total sum")
     minout3 = IntegerField(
         'Minimum number of outgoing transactions', validators=[InputRequired()], description="Enter the minimum number of accounts that one account can send money to")
     minben3 = IntegerField(
@@ -82,13 +82,13 @@ class RuleForm(FlaskForm):
     tsin3 = IntegerField('Minimum value of sum of incoming transactions (in ₹)',
                          validators=[InputRequired()], description="Enter the minimum total amount in incoming transactions")
     lout4 = IntegerField(
-        'Minimum amount for outgoing transactions (in ₹)', validators=[InputRequired()], description="Minimum total amount for outgoing transactions")
+        'Minimum amount for outgoing transactions (in ₹)', validators=[InputRequired()], description="Minimum (lowerbound) amount for outgoing transactions")
     uout4 = IntegerField(
-        'Maximum amount for outgoing transactions (in ₹)', validators=[InputRequired()], description="Maximum total amount for outgoing transactions")
+        'Maximum amount for outgoing transactions (in ₹)', validators=[InputRequired()], description="Maximum (upperbound) for outgoing transactions")
     lin4 = IntegerField(
-        'Minimum amount for incoming transactions (in ₹)', validators=[InputRequired()], description="Minimum total amount for incoming transactions")
+        'Minimum amount for incoming transactions (in ₹)', validators=[InputRequired()], description="Minimum (lowerbound) amount for incoming transactions")
     uin4 = IntegerField(
-        'Maximum amount for incoming transactions (in ₹)', validators=[InputRequired()], description="Maximum total amount for incoming transactions")
+        'Maximum amount for incoming transactions (in ₹)', validators=[InputRequired()], description="Maximum (upperbound) amount for incoming transactions")
     min_threshold = IntegerField(
         'Enter the threshold value for Risk Score (Maximum value is 4):', validators=[InputRequired()], description="Only accounts with risk score more than the entered number will be shown in the output")
     
@@ -147,21 +147,6 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
-# @app.route('/sst')
-# @login_required
-# def sst():
-#     return render_template('sst.html', name=current_user.username)
-
-# @app.route('/srs')
-# @login_required
-# def srs():
-#     return render_template('srs.html', name=current_user.username)
-
-# @app.route('/aml')
-# @login_required
-# def aml():
-#     return render_template('aml.html', name=current_user.username)
 
 @app.route('/rules', methods=['GET','POST'])
 @login_required
