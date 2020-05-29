@@ -12,28 +12,29 @@ Lucid
 
 {% block content %}
 <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid" style="background-color: #1c1c1c">
-        <div class="navbar-header" style="background-color: #1c1c1c">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div>
-            <img src="{{url_for('static', filename='new.png')}}" height="40" width="45" align="left" style="padding-top: 10px">
-            <a class="navbar-brand" href="#" style="padding-left: 20px">Lucid</a>
-          </div>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-          </ul>
-        </div>
+  <div class="container-fluid" style="background-color: #1c1c1c">
+    <div class="navbar-header" style="background-color: #1c1c1c">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+        aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div>
+        <img src="{{url_for('static', filename='new.png')}}" class="logo">
+        <a class="navbar-brand" href="#" style="padding-left: 20px">Lucid</a>
       </div>
-    </nav>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-<div class="container mt-5" style="margin-top:50px;width: 2500px;padding-left: 200px;padding-right: 200px" >
+<div class="container mt-5" style="margin-top:50px;padding-left: 100px;padding-right: 100px">
   <form class="form-group col-lg-6 offset-lg-3" method="POST" action="/output" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="modal fade" id="startendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -45,7 +46,82 @@ Lucid
             </button>
           </div>
           <div class="modal-body">
-            The date range in which in which the analysis of transactions are to be performed.
+            The date range in which the analysis of transactions are to be performed.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="filemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Upload transaction file</h4>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Upload only a <em><b>csv format file</b></em> which contains the details of transactions. The file should
+              conatin the following column accurate to their name, data type and order: </p>
+            <p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Column name</th>
+                  <th>Description</th>
+                  <th style="width: 20%;">Data Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>out_acc_num</td>
+                  <td>Customer’s account number of the bank</td>
+                  <td>Integer</td>
+                </tr>
+                <tr>
+                  <td>out_date_key</td>
+                  <td>Date of outgoing money transaction</td>
+                  <td>Text</td>
+                </tr>
+                <tr>
+                  <td>out_ beneficiary_num</td>
+                  <td>Account number of the one receiving the money</td>
+                  <td>Integer</td>
+                </tr>
+                <tr>
+                  <td>out_currency_amount</td>
+                  <td>Amount of money in ₹ sent to the opposite account</td>
+                  <td>Integer</td>
+                </tr>
+                <tr>
+                  <td>in_count_code</td>
+                  <td>Country code of the opposite account that is transfering the money to the account of the internal
+                    bank</td>
+                  <td>Text</td>
+                </tr>
+                <tr>
+                  <td>in_currency_amount</td>
+                  <td>Amount of money in ₹ received from the opposite account</td>
+                  <td>Integer</td>
+                </tr>
+                <tr>
+                  <td>beneficiary_count_code</td>
+                  <td>Country code of the opposite account that is receiving the money</td>
+                  <td>Text</td>
+                </tr>
+                <tr>
+                  <td>in_acc_num</td>
+                  <td>Account number of the one transfering the money</td>
+                  <td>Integer</td>
+                </tr>
+              </tbody>
+
+            </table>
+            </p>
+            </p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -175,181 +251,254 @@ Lucid
         </div>
       </div>
     </div>
-  <div class="content-section">
-    <div class="form-group" style="margin-top:30px;">
-      <div>
-      {{ wtf.form_field(form.file) }}
-      </div>
-      <label>
-        <a class="button fifteen" href="#startendModal" data-toggle="modal"><strong>
-            <h4>SET TIME RANGE</h4>
-          </strong></a>
-      </label>
-      <div>
-        {{ form.sd1.label(class="form-control-label") }}
-        {{ form.sd1(class="form-control form-control-lg") }}
-        <p>Enter the Start date from when you would like to monitor the transactions</p>
-      </div>
-      <div>
-        {{ form.ed1.label(class="form-control-label") }}
-        {{ form.ed1(class="form-control form-control-lg") }}
-        <p>Enter the End date from when you would like to monitor the transactions</p>
-      </div>
-    </div>
-    <div class="column">
-      <label>
-        <a class="button fifteen" href="#rule1Modal" data-toggle="modal"><strong>
-            <h4>Minimum Transaction (sum and single) Amount Rule</h4>
-          </strong></a>
-      </label>
-      <div>
-        {{ form.tsum1.label(class="form-control-label") }}
-        {{ form.tsum1(class="form-control form-control-lg") }}
-        <p>Enter the minimum total amount in transactions from one account</p>
-      </div>
-      <div>
-        {{ form.tsin1.label(class="form-control-label") }}
-        {{ form.tsin1(class="form-control form-control-lg") }}
-        <p>Enter the minimum total amount in a single transactions from one account</p>
-      </div>
-      <div class=" " style="margin-top:30px;">
+    <div class="content-section">
+      <div class="form-group" style="margin-top:30px;">
         <label>
-          <a class="button fifteen" href="#rule2Modal" data-toggle="modal"><strong>
-              <h4>High Risk Activity Rule for International Transafers</h4>
+          <a class="button fifteen" href="#filemodal" data-toggle="modal"><strong>
+              <h4 class="headings">Upload Transaction File</h4>
             </strong></a>
         </label>
         <div>
-        {{ form.minsum2.label(class="form-control-label") }}
-        {{ form.minsum2(class="form-control form-control-lg") }}
-        <p>Enter the minimum amount above which transactions are considered to be internatinonal</p>
+          {{ form.file(class="form-control form-control-lg") }}
+          <p>Should be a .CSV file</p>
+        </div>
+        <label>
+          <span class="field-tip">
+            <a class=" button fifteen" href="#startendModal" data-toggle="modal"><strong>
+                <h4 class="headings">Set Time Range</h4>
+              </strong></a>
+          </span>
+        </label>
+        <div>
+          {{ form.sd1.label(class="form-control-label") }}
+          {{ form.sd1(class="form-control form-control-lg") }}
+          <p>Enter the Start date from when you would like to monitor the transactions</p>
+        </div>
+        <div>
+          {{ form.ed1.label(class="form-control-label") }}
+          {{ form.ed1(class="form-control form-control-lg") }}
+          <p>Enter the End date for monitororing the transactions</p>
+        </div>
       </div>
-    </div>
-    <div class="column">
+      <div class="column">
+        <span class="field-tip">
+          <a class=" button fifteen" href="#rule1Modal" data-toggle="modal"><strong>
+              <h4 class="headings">Minimum Transaction (sum and single) Amount Rule</h4>
+            </strong></a>
+        </span>
+        <div>
+          {{ form.tsum1.label(class="form-control-label") }}
+          {{ form.tsum1(class="form-control form-control-lg") }}
+          <p>Enter the minimum total amount in transactions from one account</p>
+        </div>
+        <div>
+          {{ form.tsin1.label(class="form-control-label") }}
+          {{ form.tsin1(class="form-control form-control-lg") }}
+          <p>Enter the minimum total amount in a single transactions from one account</p>
+        </div>
+        <div class=" " style="margin-top:30px;">
+          <label>
+            <a class="button fifteen" href="#rule2Modal" data-toggle="modal"><strong>
+                <h4 class="headings">High Risk Activity Rule for International Transafers</h4>
+              </strong></a>
+          </label>
+          <div>
+            {{ form.minsum2.label(class="form-control-label") }}
+            {{ form.minsum2(class="form-control form-control-lg") }}
+            <p>Enter the minimum amount for international incoming and outgoing transactions as total sum</p>
+          </div>
+        </div>
+        <div class="column">
+          <p></p>
+          <div class=" " style="margin-top:30px;">
+            <label>
+              <a class="button fifteen" href="#rule3Modal" data-toggle="modal"><strong>
+                  <h4 class="headings">High Frequency of Transactions by Payers Rule</h4>
+                </strong></a>
+            </label>
+            <div>
+              {{ form.minout3.label(class="form-control-label") }}
+              {{ form.minout3(class="form-control form-control-lg") }}
+              <p>Enter the minimum number of accounts that one account can send money to</p>
+            </div>
+            <div>
+              {{ form.minben3.label(class="form-control-label") }}
+              {{ form.minben3(class="form-control form-control-lg") }}
+              <p>Enter the minimum number of distinct accounts that one account can send money to</p>
+            </div>
+            <div>
+              {{ form.tsout3.label(class="form-control-label") }}
+              {{ form.tsout3(class="form-control form-control-lg") }}
+              <p>Enter the minimum total amount in outgoing transactions</p>
+            </div>
+            <div>
+              {{ form.minin3.label(class="form-control-label") }}
+              {{ form.minin3(class="form-control form-control-lg") }}
+              <p>Enter the minimum number of accounts that one account can receive money from</p>
+            </div>
+            <div>
+              {{ form.mincre3.label(class="form-control-label") }}
+              {{ form.mincre3(class="form-control form-control-lg") }}
+              <p>Enter the minimum number of distinct accounts that one account can receive money from</p>
+            </div>
+            <div>
+              {{ form.tsin3.label(class="form-control-label") }}
+              {{ form.tsin3(class="form-control form-control-lg") }}
+              <p>Enter the minimum total amount in incoming transactions</p>
+            </div>
+          </div>
+          <p></p>
+          <div class=" " style="margin-top:30px;">
+            <label>
+              <a class="button fifteen" href="#rule4Modal" data-toggle="modal"><strong>
+                  <h4 class="headings">Layering of Money and Structuring Variety of Accounts Rule</h4>
+                </strong></a>
+            </label>
+            <div>
+              {{ form.lout4.label(class="form-control-label") }}
+              {{ form.lout4(class="form-control form-control-lg") }}
+              <p>Minimum (lowerbound) amount for outgoing transactions</p>
+            </div>
+            <div>
+              {{ form.uout4.label(class="form-control-label") }}
+              {{ form.uout4(class="form-control form-control-lg") }}
+              <p>Maximum (upperbound) for outgoing transactions</p>
+            </div>
+            <div>
+              {{ form.lin4.label(class="form-control-label") }}
+              {{ form.lin4(class="form-control form-control-lg") }}
+              <p>Minimum (lowerbound) amount for incoming transactions</p>
+            </div>
+            <div>
+              {{ form.uin4.label(class="form-control-label") }}
+              {{ form.uin4(class="form-control form-control-lg") }}
+              <p>Maximum (upperbound) amount for incoming transactions</p>
+            </div>
+          </div>
+          <p></p>
+          <div class=" " style="margin-top:30px;">
+            <label>
+              <a class="button fifteen" href="#scoringModal" data-toggle="modal"><strong>
+                  <h4 class="headings">Scoring</h4>
+                </strong></a>
+            </label>
+            <div>
+              {{ form.min_threshold.label(class="form-control-label") }}
+              {{ form.min_threshold(class="form-control form-control-lg") }}
+              <p>Only accounts with risk score more than the entered number will be shown in the output</p>
+            </div>
+          </div>
+        </div>
+        <p></p>
+        <div class=" ">
+          <a href="output.html"><button type="submit" class="btn btn-primary" name='rules'
+              id="rules">Submit</button></a>
+        </div>
+      </div>
       <p></p>
-      <div class=" " style="margin-top:30px;">
-        <label>
-          <a class="button fifteen" href="#rule3Modal" data-toggle="modal"><strong>
-              <h4>High Frequency of Transactions by Payers Rule</h4>
-            </strong></a>
-        </label>
-        <div>
-        {{ form.minout3.label(class="form-control-label") }}
-        {{ form.minout3(class="form-control form-control-lg") }}
-        <p>Enter the minimum number of accounts that one account can send money to</p>
-        </div>
-        <div>
-        {{ form.minben3.label(class="form-control-label") }}
-        {{ form.minben3(class="form-control form-control-lg") }}
-        <p>Enter the minimum number of distinct accounts that one account can send money to</p>
-        </div>
-        <div>
-        {{ form.tsout3.label(class="form-control-label") }}
-        {{ form.tsout3(class="form-control form-control-lg") }}
-        <p>Enter the minimum total amount in outgoing transactions</p>
-        </div>
-        <div>
-        {{ form.minin3.label(class="form-control-label") }}
-        {{ form.minin3(class="form-control form-control-lg") }}
-        <p>Enter the minimum number of accounts that one account can receive money from</p>
-        </div>
-        <div>
-        {{ form.mincre3.label(class="form-control-label") }}
-        {{ form.mincre3(class="form-control form-control-lg") }}
-        <p>Enter the minimum number of distinct accounts that one account can receive money from</p>
-        </div>
-        <div>
-        {{ form.tsin3.label(class="form-control-label") }}
-        {{ form.tsin3(class="form-control form-control-lg") }}
-        <p>Enter the minimum total amount in incoming transactions</p>
-        </div>
-      </div>
-      <p></p>
-      <div class=" " style="margin-top:30px;">
-        <label>
-          <a class="button fifteen" href="#rule4Modal" data-toggle="modal"><strong>
-              <h4>Layering of Money and Structuring Variety of Accounts Rule</h4>
-            </strong></a>
-        </label>
-        <div>
-        {{ form.lout4.label(class="form-control-label") }}
-        {{ form.lout4(class="form-control form-control-lg") }}
-        <p>Minimum total amount for outgoing transactions</p>
-        </div>
-        <div>
-        {{ form.uout4.label(class="form-control-label") }}
-        {{ form.uout4(class="form-control form-control-lg") }}
-        <p>Maximum total amount for outgoing transactions</p>
-        </div>
-        <div>
-        {{ form.lin4.label(class="form-control-label") }}
-        {{ form.lin4(class="form-control form-control-lg") }}
-        <p>Minimum total amount for incoming transactions</p>
-        </div>
-        <div>
-        {{ form.uin4.label(class="form-control-label") }}
-        {{ form.uin4(class="form-control form-control-lg") }}
-        <p>Maximum total amount for incoming transactions</p>
-        </div>
-      </div>
-      <p></p>
-      <div class=" " style="margin-top:30px;">
-        <label>
-          <a class="button fifteen" href="#scoringModal" data-toggle="modal"><strong>
-              <h4>SCORING</h4>
-            </strong></a>
-        </label>
-        <div>
-        {{ form.min_threshold.label(class="form-control-label") }}
-        {{ form.min_threshold(class="form-control form-control-lg") }}
-        <p>Only accounts with risk score more than the entered number will be shown in the output</p>
-        </div>
-      </div>
     </div>
-    <p></p>
-    <div class=" ">
-      <a href="output.html"><button type="submit" class="btn btn-primary" name='rules' id="rules">Submit</button></a>
-    </div>
-</div>
-<p></p>
-  </div>
-</form>
-<style type="text/css">
-body {
-    background: #fafafa;
-    color: #333333;
-    margin-top: 5rem;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    color: #444444;
-  }
-  
-  .bg-steel {
-    background-color: #5f788a;
-  }
-  
-  .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
-  }
-  
-  .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
-  }
-  
-  .site-header .navbar-nav .nav-link.active {
-    font-weight: 500;
-  }
-  
-  .content-section {
-    background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-  }
+  </form>
+  <style type="text/css">
+    body {
+      background: #aeb1b5;
+      /*color: #333333;*/
+      margin-top: 5rem;
+    }
 
-</style>
-</body>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #444444;
+    }
 
-</html>
-{% endblock %}
+    .bg-steel {
+      background-color: #5f788a;
+    }
+
+    .site-header .navbar-nav .nav-link {
+      color: #cbd5db;
+    }
+
+    .site-header .navbar-nav .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .site-header .navbar-nav .nav-link.active {
+      font-weight: 500;
+    }
+
+    .content-section {
+      background: #ffffff;
+      padding: 10px 20px;
+      border: 1px solid #dddddd;
+      border-radius: 3px;
+      width: 900px;
+      margin-bottom: 20px;
+      /*box-shadow: 5px 5px #fafafa;*/
+    }
+
+    .headings {
+      /*color: #003366;*/
+      color: #1a1e7a;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+
+    .modal-header,
+    .modal-footer {
+      background-color: #172e1d;
+      height: 60px;
+    }
+
+    .modal-title {
+      color: white;
+    }
+
+    .modal-body {
+      color: black;
+    }
+
+    .logo {
+      height: 40px;
+      width: 45px;
+      float: left;
+      padding-top: 10px;
+    }
+
+    .field-tip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .field-tip .tip-content {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      top: -5px;
+      left: 105%;
+    }
+
+    .field-tip:hover .tip-content {
+      visibility: visible;
+    }
+  </style>
+  </body>
+
+  </html>
+  {% endblock %}
